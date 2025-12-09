@@ -6,19 +6,15 @@
 <title>Coding Quiz Platform</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  .instruction-text { font-size: 1.15rem; line-height: 1.65rem; }
-  .instruction-bullets { font-size: 1.05rem; line-height: 1.55rem; }
-  #questionText { font-size: 1.05rem; line-height: 1.6; white-space: pre-line; }
-  #optionsContainer label { font-size: 1rem; }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
-  input[type="radio"] { accent-color: #6366f1; }
+.instruction-text { font-size: 1.15rem; line-height: 1.65rem; }
+.instruction-bullets { font-size: 1.05rem; line-height: 1.55rem; }
+#questionText { font-size: 1.05rem; line-height: 1.6; }
+#optionsContainer label { font-size: 1rem; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>
 </head>
-
 <body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 select-none">
-
 <div class="w-full h-full min-h-screen bg-slate-900/85 backdrop-blur-xl shadow-xl text-slate-50 p-6 md:p-10 flex flex-col gap-6">
-
   <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
     <div>
       <h1 class="text-3xl font-semibold tracking-tight">Coding Contest Quiz</h1>
@@ -33,7 +29,6 @@
   <h2 class="text-center text-3xl font-bold text-indigo-400 mb-2 underline underline-offset-4 decoration-indigo-400">TECH RUSH</h2>
 
   <div id="startScreen" class="grid md:grid-cols-[2fr,1fr] gap-10 items-start">
-
     <div class="space-y-4">
       <p class="instruction-text text-slate-200">
         You will get <span class="font-semibold text-indigo-400 text-xl">30 minutes</span> to answer
@@ -59,18 +54,12 @@
     </div>
   </div>
 
-
-
-
-  <!-- QUIZ SCREEN -->
   <div id="quizScreenWrapper" class="hidden w-full">
     <div id="quizScreen" class="grid grid-cols-1 md:grid-cols-[1fr,2fr] gap-6">
-
-      <!-- LEFT SECTION -->
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <div class="text-xs">
-            <div id="progressText" class="font-medium text-slate-200">Question 1 of 20</div>
+            <div id="progressText" class="font-medium text-slate-200">Question</div>
             <div class="mt-1 w-44 h-1.5 bg-slate-800 rounded-full overflow-hidden">
               <div id="progressBar" class="h-full bg-indigo-400 rounded-full" style="width:5%"></div>
             </div>
@@ -91,10 +80,6 @@
         </button>
       </div>
 
-
-
-
-      <!-- RIGHT SECTION -->
       <div class="space-y-4">
         <div class="p-6 rounded-xl bg-slate-900/70 border border-slate-700/80 shadow-inner min-h-[300px] flex flex-col gap-4">
           <div class="flex items-center justify-between text-xs text-slate-400">
@@ -102,7 +87,7 @@
             <span id="statusText" class="text-slate-500"></span>
           </div>
 
-          <div id="questionText" class="text-lg font-medium"></div>
+          <div id="questionText" class="text-lg font-medium whitespace-pre-line"></div>
           <div id="optionsContainer" class="space-y-3"></div>
         </div>
 
@@ -127,16 +112,12 @@
     </div>
   </div>
 
-
-
-
-  <!-- RESULT SCREEN -->
   <div id="resultScreen" class="hidden w-full mt-6">
     <div class="grid md:grid-cols-[2fr,1fr] gap-6">
       <div class="p-6 rounded-xl bg-slate-900/70 border border-slate-700">
-        <h2 class="text-xl font-semibold mb-2">Quiz Submitted</h2>
+        <h2 class="text-xl font-semibold mb-4">Quiz Submitted</h2>
         <p id="scoreText" class="hidden"></p>
-        <p id="metaText" class="text-sm text-slate-300 mt-2 leading-6"></p>
+        <div id="resultStats" class="p-4 rounded-lg bg-slate-800/60 border border-slate-700 space-y-2 text-slate-200 text-sm"></div>
       </div>
 
       <div class="flex flex-col items-center justify-center gap-4">
@@ -146,9 +127,6 @@
     </div>
   </div>
 
-
-
-
   <div id="startActions" class="mt-4 flex justify-center">
     <button id="startBtn" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-xl">
       Enter Fullscreen & Start Quiz
@@ -157,129 +135,252 @@
 
 </div>
 
-
-
-
-
-
 <script>
-// ==========================================
-// QUESTIONS WITH NUMBERS REMOVED (Option A)
-// ==========================================
-
 const questions = [
-
-{ q:`In a competition, four different functions are observed.
+{
+q: `In a competition, four different functions are observed.
 All the functions use a single for loop and within the
 loop, the same set of statements are executed. Consider
 the following loops:
-A) for(i = 0; i < n; i++)
-B) for(i = 0; i < n; i += 2)
-C) for(i = 1; i < n; i *= 2)
-D) for(i = n; i > -1; i /= 2)
+
+A. for(i = 0; i < n; i++)
+B. for(i = 0; i < n; i += 2)
+C. for(i = 1; i < n; i *= 2)
+D. for(i = n; i > -1; i /= 2)
+
 If n is the size of input (positive), which function is the
 most efficient (completes fastest)?`,
-options:["A","B","C","D"], a:2 },
+options:["A","B","C","D"],
+a:2
+},
 
-{ q:`Which option provides the increasing order of complexity of functions f1, f2, f3 and f4?
-f1(n) = 2^n, f2(n) = n^(3/2), f3(n) = n log n, f4(n) = n^(log n)`,
-options:["f3, f2, f4, f1","f3, f2, f1, f4","f2, f3, f1, f4","f2, f3, f4, f1"], a:0 },
+{ q:`Which option provides the increasing order of complexity
+of functions f1, f2, f3 and f4?
+f1(n) = 2^n , f2(n) = n^(3/2) , f3(n) = n log n , f4(n) = n^(log n)`,
+options:[
+"f3, f2, f4, f1",
+"f3, f2, f1, f4",
+"f2, f3, f1, f4",
+"f2, f3, f4, f1"
+], a:0 },
 
-{ q:`You have an array int A[5][10] stored in row-major order,
-base address = 2000, size of int = 4 bytes. What is the
-address of A[3][4]?`,
-options:["2120","2136","2096","2116"], a:1 },
+{ q:`You have an array int A[5][10] stored in row-major
+order, base address = 2000, size of int = 4 bytes. What
+is the address of A[3][4]?`,
+options:[
+"2120",
+"2136",
+"2096",
+"2116"
+], a:1 },
 
 { q:`What is the time complexity of inserting at the end in
 dynamic arrays?`,
-options:["O(1)","O(n)","O(log n)","Either O(1) or O(n)"], a:3 },
+options:[
+"O(1)",
+"O(n)",
+"O(log n)",
+"Either O(1) or O(n)"
+], a:3 },
 
 { q:`What is the minimum number of pointer assignments
 required to insert a new node N immediately before an
 existing node X in a non-empty Doubly Linked List,
 assuming X is not the head and has a predecessor P?`,
-options:["6","4","5","3"], a:1 },
+options:[
+"6",
+"4",
+"5",
+"3"
+], a:1 },
 
 { q:`What is the total memory (in bytes) occupied by a
-Singly Linked List with N nodes on a 64-bit architec-
-ture? (Assume each node stores one int and one
-pointer.)`,
-options:["12N + 8","8N + 8","4N + 8","16N + 8"], a:0 },
+Singly Linked List with N nodes on a 64-bit architecture? (Assume each node stores one int and one pointer.)`,
+options:[
+"12N + 8",
+"8N + 8",
+"4N + 8",
+"16N + 8"
+], a:0 },
 
-{ q:`The result of evaluating the postfix expression
-10 5 + 60 6 / * 8 −`,
-options:["284","213","142","71"], a:2 },
+{ q:`The result of evaluating the postfix expression:
+10 5 + 60 6 / * 8 -`,
+options:[
+"284",
+"213",
+"142",
+"71"
+], a:2 },
 
 { q:`What is the primary practical disadvantage of a Linked
 List implementation for a Queue ADT compared to an
 optimized Array (Circular Buffer), especially for small
 to moderate values of N?`,
-options:["Requires O(N²) memory","Dequeue is O(N)","Poor cache locality","Head/tail overhead O(log N)"], a:2 },
+options:[
+"Requires O(N²) memory",
+"Dequeue is O(N) due to shifting",
+"Poor cache locality due to non-contiguous memory",
+"Head/tail overhead increases complexity to O(log N)"
+], a:2 },
 
-{ q:`Which two traversals are NOT sufficient to construct a
-unique binary tree?`,
-options:["Inorder + Preorder","Inorder + Postorder","Preorder + Postorder","Level order + Inorder"], a:2 },
+{ q:`Which two traversals are NOT sufficient to construct
+a unique binary tree?`,
+options:[
+"Inorder + Preorder",
+"Inorder + Postorder",
+"Preorder + Postorder",
+"Level order + Inorder"
+], a:2 },
 
 { q:`A Red-Black Tree has a red parent and a red uncle.
 After inserting a red node, what is the correct fix?`,
-options:["Rotate","Recolor","Delete","Left rotate"], a:1 },
+options:[
+"Rotate around grandparent",
+"Recolor parent and uncle black, grandparent red",
+"Delete the new node",
+"Always left rotate"
+], a:1 },
 
 { q:`What is the most suitable output?
+#include <iostream>
+using namespace std;
+int main(){
+int i;
 for(i = 0; i > -1; i++);
-cout << i;`,
-options:["-1","Infinite loop","INT MIN","INT MAX"], a:2 },
-
-{ q:`Which correctly compares first 3 characters of two
-strings?`,
-options:["s1.compare(3,s2)","s1.compare(0,3,s2)","s1.compare(s2,0,3)","s1.compare(3,0,s2)"], a:1 },
-
-{ q:`Which statement is NOT true?
-A) static member shared
-B) friend function normal call
-C) scope resolution overloaded
-D) virtual base avoids duplication`,
+cout << i;
+return 0;
+}`,
 options:[
-"static member shared",
-"friend function normal call",
-"scope resolution overloaded",
-"virtual base avoids duplication"
+"-1",
+"Infinite loop – nothing is printed",
+"INT MIN",
+"INT MAX"
 ], a:2 },
 
-{ q:`Which statements are true regarding C++?
-i. Overloading gives capability
-ii. Inheritance supports reusability
-iii. Derived ctor runs before base
-iv. Overloading is polymorphism`,
-options:["i & ii","i, ii, iii","i, ii, iv","ii, iii, iv"], a:2 },
+{ q:`Which of the following correctly compares only the first
+3 characters of two strings?`,
+options:[
+"s1.compare(3, s2)",
+"s1.compare(0, 3, s2)",
+"s1.compare(s2, 0, 3)",
+"s1.compare(3, 0, s2)"
+], a:1 },
+
+{ q:`Which of the following statements is not true?`,
+options:[
+"A data member of a class can be declared as static and is normally used to maintain values common to the entire class.",
+"A friend function can be invoked like a normal function without the help of any object.",
+"The scope resolution operator (::) can be overloaded like normal operators.",
+"Multiple inheritance may lead to duplication of inherited members from a ”Grandparent” base class. This may be avoided by making the common base class a virtual base class."
+], a:2 },
+
+{ q:`Which of the following statements are true regarding
+C++?
+i. Overloading gives the capability to an existing operator to operate on other data types
+ii. Inheritance provides support for reusability
+iii. When object of a derived class is defined, first the constructor of derived class is excecuted then constructor of a base class is executed
+iv. Overloading is a type of polymorphism`,
+options:[
+"(i) and (ii) only",
+"(i), (ii) and (iii) only",
+"(i), (ii) and (iv) only",
+"(ii), (iii) and (iv) only"
+], a:2 },
+
+{ q:`What will be the output of the following program?
+#include <iostream>
+using namespace std;
+class Test {
+int x;
+public:
+Test(int x) : x(x) {}
+bool operator==(Test t) {
+return x = t.x;
+}
+};
+int main() {
+Test t1(5), t2(10);
+if (t1 == t2)
+cout << "Equal";
+else
+cout << "Not Equal";
+return 0;
+}`,
+options:[
+"Equal",
+"Not Equal",
+"Compilation error",
+"Undefined behavior"
+], a:0 },
+
+{ q:`Output of the following program?
+#include <iostream>
+using namespace std;
+class A { public: void fun(){ cout<<"A"; } };
+class B : public A {};
+class C : public A {};
+class D : public B, public C {};
+
+int main() {
+D obj;
+obj.fun();
+}`,
+options:[
+"Outputs A",
+"Ambiguous call",
+"Compilation error",
+"Undefined behavior"
+], a:1 },
+
+{ q:`Which of the following correctly defines aggregation?`,
+options:[
+"Objects are completely independent",
+"A child cannot exist without parent",
+"Has-a relationship with independent lifetime",
+"Only applicable for abstract classes"
+], a:2 },
+
+{ q:`Output of the program?
+#include <iostream>
+using namespace std;
+class A {
+public:
+A() { cout << "C "; }
+~A() { cout << "D "; }
+};
+int main() {
+A obj1;
+{ A obj2; }
+A obj3;
+return 0;
+}`,
+options:[
+"C C D C D D",
+"C C C D D D",
+"C C D C D D",
+"C D C D C D"
+], a:2 },
+
+{ q:`Which statement is TRUE?
+class Heart {};
+class Human { Heart* h; };`,
+options:[
+"Composition",
+"Aggregation",
+"Inheritance",
+"Association"
+], a:1 },
 
 { q:`Output?
-operator== assigns instead of compares.`,
-options:["Equal","Not Equal","Compilation error","Undefined"], a:0 },
-
-{ q:`Output?
-class D : public B, public C; obj.fun();`,
-options:["A","Ambiguous","Error","UB"], a:1 },
-
-{ q:`Which correctly defines aggregation?`,
-options:["Independent","Child can't exist","Has-a independent","Only abstract"], a:2 },
-
-{ q:`Output of constructor/destructor program?`,
-options:["C C D C D C","C C C D D D","C C D C D D","C D C D C D"], a:2 },
-
-{ q:`Which statement is TRUE? class Human { Heart* h; }`,
-options:["Composition","Aggregation","Inheritance","Association"], a:1 },
-
-{ q:`Output?
-string s="abcdef"; cout<<s.substr(2,3);`,
-options:["abc","cde","def","cd"], a:1 }
+string s = "abcdef";
+cout << s.substr(2, 3);`,
+options:[
+"abc",
+"cde",
+"def",
+"cd"
+], a:1 }
 ];
-
-
-
-
-// ========================================================
-// QUIZ LOGIC
-// ========================================================
 
 let quizQuestions = [];
 let answers = [];
@@ -290,268 +391,361 @@ let timeLeft = 1800;
 let timerId = null;
 let submitted = false;
 
+const startScreen = document.getElementById("startScreen");
+const quizScreen = document.getElementById("quizScreen");
+const quizScreenWrapper = document.getElementById("quizScreenWrapper");
+const resultScreen = document.getElementById("resultScreen");
+const startBtn = document.getElementById("startBtn");
+const timerEl = document.getElementById("timer");
+const progressText = document.getElementById("progressText");
+const progressBar = document.getElementById("progressBar");
+const questionText = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
+const markReviewBtn = document.getElementById("markReviewBtn");
+const reviewStateText = document.getElementById("reviewStateText");
+const questionList = document.getElementById("questionList");
+const answeredCountText = document.getElementById("answeredCountText");
+const questionHeader = document.getElementById("questionHeader");
+const statusText = document.getElementById("statusText");
+const submitBtnTop = document.getElementById("submitBtnTop");
+const scoreText = document.getElementById("scoreText");
+const qrCode = document.getElementById("qrCode");
+const resultStats = document.getElementById("resultStats");
+const reloadBtn = document.getElementById("reloadBtn");
+const startActions = document.getElementById("startActions");
 
-
-
-function shuffle(a){
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
+  return a;
 }
 
-function initQuiz(){
-  quizQuestions = questions.map(q => ({
+function initQuiz() {
+  quizQuestions = questions.map((q, idx) => ({
     q: q.q,
     options: [...q.options],
-    a: q.a
+    a: q.a,
+    originalIndex: idx
   }));
 
   shuffle(quizQuestions);
 
-  quizQuestions.forEach(q=>{
-    const order=[0,1,2,3];
+  quizQuestions.forEach(q => {
+    const order = [0, 1, 2, 3];
     shuffle(order);
-    q.options = order.map(i=>q.options[i]);
-    q.a = order.indexOf(q.a);
-    q.order=[0,1,2,3];
+    q.order = order;
   });
 
   answers = new Array(quizQuestions.length).fill(null);
   review = new Array(quizQuestions.length).fill(false);
   visited = new Array(quizQuestions.length).fill(false);
-
   currentIndex = 0;
+  timeLeft = 1800;
+  submitted = false;
 
-  buildPalette();
+  buildQuestionPalette();
   renderQuestion();
   updateAnsweredCount();
 }
 
-
-
-
-function buildPalette(){
-  const list=document.getElementById("questionList");
-  list.innerHTML="";
-  quizQuestions.forEach((_,i)=>{
-    const btn=document.createElement("button");
-    btn.textContent=i+1;
-    btn.className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-600";
-    btn.onclick=()=>{ if(!submitted){ currentIndex=i; renderQuestion(); }};
-    list.appendChild(btn);
+function buildQuestionPalette() {
+  questionList.innerHTML = "";
+  quizQuestions.forEach((_, idx) => {
+    const btn = document.createElement("button");
+    btn.textContent = idx + 1;
+    btn.dataset.index = idx;
+    btn.className =
+      "w-10 h-10 rounded-lg bg-slate-800 border border-slate-600 text-xs text-slate-200 font-semibold hover:border-indigo-400";
+    btn.addEventListener("click", () => {
+      if (submitted) return;
+      currentIndex = idx;
+      renderQuestion();
+    });
+    questionList.appendChild(btn);
   });
 }
 
-function updatePalette(){
-  document.querySelectorAll("#questionList button").forEach((btn,i)=>{
-    btn.className="w-10 h-10 rounded-lg text-xs font-semibold flex items-center justify-center border";
+function updatePaletteColors() {
+  const children = [...questionList.children];
+  children.forEach((btn, idx) => {
+    btn.className =
+      "w-10 h-10 rounded-lg text-xs font-semibold flex items-center justify-center border";
 
-    if(!visited[i]) btn.classList.add("bg-slate-800","border-slate-600","text-slate-200");
-    else if(review[i]) btn.classList.add("bg-violet-500","text-white");
-    else if(answers[i]===null) btn.classList.add("bg-rose-500","text-white");
-    else btn.classList.add("bg-emerald-500","text-white");
+    if (!visited[idx]) {
+      btn.classList.add("bg-slate-800", "border-slate-600", "text-slate-200");
+    } else if (review[idx]) {
+      btn.classList.add("bg-violet-500", "border-violet-400", "text-white");
+    } else if (answers[idx] === null) {
+      btn.classList.add("bg-rose-500", "border-rose-400", "text-white");
+    } else {
+      btn.classList.add("bg-emerald-500", "border-emerald-400", "text-white");
+    }
 
-    if(i===currentIndex) btn.classList.add("ring-2","ring-indigo-400");
+    if (idx === currentIndex) {
+      btn.classList.add(
+        "ring-2",
+        "ring-offset-2",
+        "ring-indigo-400",
+        "ring-offset-slate-900"
+      );
+    }
   });
 }
 
+function updateAnsweredCount() {
+  let answeredCount = answers.filter(v => v !== null).length;
+  answeredCountText.textContent = answeredCount + " answered";
+}
 
+function renderQuestion() {
+  visited[currentIndex] = true;
+  let q = quizQuestions[currentIndex];
 
+  questionHeader.textContent = "Question";
+  questionText.textContent = q.q;
+  optionsContainer.innerHTML = "";
 
-function renderQuestion(){
-  visited[currentIndex]=true;
-  const q=quizQuestions[currentIndex];
+  q.order.forEach(optIdx => {
+    let optText = q.options[optIdx];
+    let label = document.createElement("label");
+    label.className =
+      "flex items-center gap-3 p-3 rounded-xl border border-slate-700/80 bg-slate-900/60 hover:border-indigo-400 cursor-pointer transition text-sm";
 
-  document.getElementById("questionHeader").textContent =
-    "Question " + (currentIndex+1);
+    let input = document.createElement("input");
+    input.type = "radio";
+    input.name = "option";
+    input.value = optIdx;
+    input.className = "h-4 w-4";
 
-  document.getElementById("questionText").textContent = q.q;
+    if (answers[currentIndex] === optIdx) input.checked = true;
 
-  const container=document.getElementById("optionsContainer");
-  container.innerHTML="";
-
-  q.order.forEach(idx=>{
-    let lbl=document.createElement("label");
-    lbl.className="flex items-center gap-3 p-3 rounded-xl border border-slate-700 bg-slate-900/60 cursor-pointer hover:border-indigo-400";
-
-    let inp=document.createElement("input");
-    inp.type="radio";
-    inp.name="option";
-    inp.value=idx;
-    inp.checked=answers[currentIndex]===idx;
-    inp.onclick=()=>{
-      answers[currentIndex]=idx;
+    input.addEventListener("change", () => {
+      answers[currentIndex] = optIdx;
+      nextBtn.disabled = false;
+      nextBtn.classList.remove("opacity-50", "cursor-not-allowed");
       updateAnsweredCount();
-      updatePalette();
-      updateStatus();
-      document.getElementById("nextBtn").disabled=false;
-    };
+      updatePaletteColors();
+      updateStatusText();
+    });
 
-    let sp=document.createElement("span");
-    sp.textContent=q.options[idx];
+    let span = document.createElement("span");
+    span.className = "text-sm text-slate-100";
+    span.textContent = optText;
 
-    lbl.appendChild(inp);
-    lbl.appendChild(sp);
-    container.appendChild(lbl);
+    label.appendChild(input);
+    label.appendChild(span);
+    optionsContainer.appendChild(label);
   });
-
-  document.getElementById("prevBtn").disabled = currentIndex===0;
-  document.getElementById("nextBtn").textContent =
-    currentIndex===quizQuestions.length-1 ? "Submit" : "Next";
-  document.getElementById("nextBtn").disabled = answers[currentIndex]===null;
 
   updateProgress();
-  updateStatus();
-  updateReview();
-  updatePalette();
+
+  prevBtn.disabled = currentIndex === 0;
+  nextBtn.textContent =
+    currentIndex === quizQuestions.length - 1 ? "Submit" : "Next";
+
+  if (answers[currentIndex] === null) {
+    nextBtn.disabled = true;
+    nextBtn.classList.add("opacity-50", "cursor-not-allowed");
+  } else {
+    nextBtn.disabled = false;
+    nextBtn.classList.remove("opacity-50", "cursor-not-allowed");
+  }
+
+  updateStatusText();
+  updateReviewStateText();
+  updatePaletteColors();
 }
 
-
-
-
-function updateProgress(){
-  let pct=((currentIndex+1)/quizQuestions.length)*100;
-  document.getElementById("progressBar").style.width=pct+"%";
-  document.getElementById("progressText").textContent =
-    `Question ${currentIndex+1} of ${quizQuestions.length}`;
+function updateProgress() {
+  let total = quizQuestions.length;
+  let current = currentIndex + 1;
+  progressText.textContent = "Question";
+  let pct = (current / total) * 100;
+  progressBar.style.width = pct + "%";
 }
 
-function updateAnsweredCount(){
-  document.getElementById("answeredCountText").textContent =
-    answers.filter(v=>v!==null).length + " answered";
+function updateStatusText() {
+  let s = "";
+  if (answers[currentIndex] !== null) s = "Answered";
+  else if (visited[currentIndex]) s = "Not answered";
+  statusText.textContent = s;
 }
 
-function updateStatus(){
-  document.getElementById("statusText").textContent =
-    answers[currentIndex]!==null ? "Answered" : "Not answered";
+function updateReviewStateText() {
+  if (review[currentIndex]) {
+    reviewStateText.textContent = "Marked for review";
+    reviewStateText.className = "text-xs text-violet-300";
+  } else {
+    reviewStateText.textContent = "";
+    reviewStateText.className = "";
+  }
 }
 
-function updateReview(){
-  document.getElementById("reviewStateText").textContent =
-    review[currentIndex] ? "Marked for review" : "";
-}
+function startTimer() {
+  if (timerId) clearInterval(timerId);
+  timerId = setInterval(() => {
+    let m = Math.floor(timeLeft / 60);
+    let s = timeLeft % 60;
+    timerEl.textContent =
+      "Time Left: " + m + "m " + s.toString().padStart(2, "0") + "s";
 
-
-
-
-// TIMER
-function startTimer(){
-  timerId=setInterval(()=>{
-    let m=Math.floor(timeLeft/60);
-    let s=timeLeft%60;
-
-    document.getElementById("timer").textContent =
-      `Time Left: ${m}m ${String(s).padStart(2,"0")}s`;
-
-    if(timeLeft<=0){
+    if (timeLeft <= 0) {
       clearInterval(timerId);
       submitQuiz("Time Over");
     }
 
     timeLeft--;
-  },1000);
+  }, 1000);
 }
 
+function submitQuiz(reason) {
+  if (submitted) return;
+  submitted = true;
 
+  if (timerId) clearInterval(timerId);
 
+  quizScreenWrapper.classList.add("hidden");
+  quizScreen.classList.add("hidden");
+  resultScreen.classList.remove("hidden");
+  startScreen.classList.add("hidden");
+  startActions.classList.add("hidden");
 
-// SUBMIT
-function submitQuiz(reason){
-  if(submitted) return;
-  submitted=true;
+  let score = 0;
+  quizQuestions.forEach((q, idx) => {
+    if (answers[idx] === q.a) score += 2;
+  });
 
-  clearInterval(timerId);
+  scoreText.textContent = "";
 
-  const taken=1800-timeLeft;
-  const submittedAt=new Date().toLocaleString();
+  let answeredCount = answers.filter(v => v !== null).length;
+  let reviewed = review.filter(v => v).length;
+  let timeTakenSeconds = 1800 - Math.max(0, timeLeft);
+  if (timeTakenSeconds < 0) timeTakenSeconds = 1800;
+  let tm = Math.floor(timeTakenSeconds / 60);
+  let ts = timeTakenSeconds % 60;
+  let timeTakenDisplay = tm + "m " + ts.toString().padStart(2, "0") + "s";
+  let timeTakenQR = tm + "m" + ts.toString().padStart(2, "0") + "s";
 
-  document.getElementById("quizScreenWrapper").classList.add("hidden");
-  document.getElementById("startScreen").classList.add("hidden");
-  document.getElementById("startActions").classList.add("hidden");
-  document.getElementById("resultScreen").classList.remove("hidden");
+  resultStats.innerHTML =
+    "<p><span class='font-semibold'>Attempted:</span> " + answeredCount + "</p>" +
+    "<p><span class='font-semibold'>Marked for Review:</span> " + reviewed + "</p>" +
+    "<p><span class='font-semibold'>Time Taken:</span> " + timeTakenDisplay + "</p>" +
+    "<p><span class='font-semibold'>Reason:</span> " + (reason ? reason : "User submitted") + "</p>";
 
-  let score=0;
-  quizQuestions.forEach((q,i)=>{ if(answers[i]===q.a) score+=2; });
-
-  let attempted=answers.filter(v=>v!==null).length;
-  let reviewed=review.filter(v=>v).length;
-
-  document.getElementById("metaText").innerHTML =
-    `Attempted: ${attempted}<br>
-     Marked for review: ${reviewed}<br>
-     Submitted at: ${submittedAt}<br>
-     Time Taken: ${Math.floor(taken/60)}m ${taken%60}s`;
-
-  let qr = encodeURIComponent(
-    `Score:${score}/40 | Attempted:${attempted} | Review:${reviewed} | Time:${taken}s`
+  let data = encodeURIComponent(
+    "Score:" + score + "/40;Attempted:" + answeredCount + ";Review:" + reviewed + ";TimeTaken:" + timeTakenQR
   );
+  qrCode.src = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + data;
 
-  document.getElementById("qrCode").src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + qr;
-
-  document.getElementById("scoreText").classList.remove("hidden");
-  document.getElementById("scoreText").textContent =
-    `Score: ${score} / 40`;
-
-  if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+  if (document.fullscreenElement && document.exitFullscreen) {
+    document.exitFullscreen().catch(() => {});
+  }
 }
 
+startBtn.addEventListener("click", async () => {
+  try {
+    if (document.documentElement.requestFullscreen) {
+      await document.documentElement.requestFullscreen();
+    }
+  } catch (e) {
+  }
 
-
-
-// BUTTON HANDLERS
-document.getElementById("startBtn").onclick = async ()=>{
-  try{ await document.documentElement.requestFullscreen(); }catch{}
-  document.getElementById("startScreen").classList.add("hidden");
-  document.getElementById("startActions").classList.add("hidden");
-  document.getElementById("quizScreenWrapper").classList.remove("hidden");
+  startScreen.classList.add("hidden");
+  startActions.classList.add("hidden");
+  quizScreenWrapper.classList.remove("hidden");
+  quizScreen.classList.remove("hidden");
 
   initQuiz();
   startTimer();
-};
-
-document.getElementById("nextBtn").onclick = ()=>{
-  if(answers[currentIndex]===null) review[currentIndex]=true;
-  if(currentIndex===quizQuestions.length-1) submitQuiz("User");
-  else{ currentIndex++; renderQuestion(); }
-};
-
-document.getElementById("prevBtn").onclick = ()=>{
-  if(currentIndex>0){ currentIndex--; renderQuestion(); }
-};
-
-document.getElementById("markReviewBtn").onclick = ()=>{
-  review[currentIndex]=!review[currentIndex];
-  updateReview();
-  updatePalette();
-  if(currentIndex<quizQuestions.length-1){ currentIndex++; renderQuestion(); }
-};
-
-document.getElementById("submitBtnTop").onclick = ()=>submitQuiz("User");
-document.getElementById("reloadBtn").onclick = ()=>location.reload();
-
-
-
-
-// ANTI-CHEAT
-document.addEventListener("visibilitychange", ()=>{
-  if(document.hidden && !submitted) submitQuiz("Tab change");
 });
-document.addEventListener("fullscreenchange", ()=>{
-  if(!document.fullscreenElement && !submitted)
-    submitQuiz("Fullscreen exit");
+
+nextBtn.addEventListener("click", () => {
+  if (answers[currentIndex] === null) review[currentIndex] = true;
+
+  if (currentIndex === quizQuestions.length - 1) {
+    submitQuiz("User submitted");
+  } else {
+    currentIndex++;
+    renderQuestion();
+  }
 });
-document.addEventListener("contextmenu", e=>e.preventDefault());
-document.addEventListener("copy", e=>e.preventDefault());
-document.addEventListener("paste", e=>e.preventDefault());
-document.addEventListener("cut", e=>e.preventDefault());
-document.addEventListener("keydown", e=>{
-  if(e.key==="F12") e.preventDefault();
-  if(e.ctrlKey && e.shiftKey &&
-     ["i","j","c"].includes(e.key.toLowerCase())) e.preventDefault();
+
+prevBtn.addEventListener("click", () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderQuestion();
+  }
+});
+
+markReviewBtn.addEventListener("click", () => {
+  review[currentIndex] = !review[currentIndex];
+  if (!visited[currentIndex]) visited[currentIndex] = true;
+  updateReviewStateText();
+  updatePaletteColors();
+  if (currentIndex < quizQuestions.length - 1) {
+    currentIndex++;
+    renderQuestion();
+  }
+});
+
+submitBtnTop.addEventListener("click", () => {
+  submitQuiz("User submitted");
+});
+
+reloadBtn.addEventListener("click", () => {
+  window.location.reload();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && !submitted) {
+    submitQuiz("Tab changed");
+  }
+});
+
+document.addEventListener("fullscreenchange", () => {
+  if (
+    !document.fullscreenElement &&
+    !submitted &&
+    quizScreenWrapper &&
+    !quizScreenWrapper.classList.contains("hidden")
+  ) {
+    submitQuiz("Fullscreen exited");
+  }
+});
+
+document.addEventListener("contextmenu", e => { e.preventDefault(); });
+document.addEventListener("copy", e => { e.preventDefault(); });
+document.addEventListener("cut", e => { e.preventDefault(); });
+document.addEventListener("paste", e => { e.preventDefault(); });
+
+document.addEventListener("keydown", e => {
+  if (e.key === "F12") e.preventDefault();
+
+  if (
+    e.ctrlKey &&
+    e.shiftKey &&
+    (e.key.toLowerCase() === "i" ||
+      e.key.toLowerCase() === "j" ||
+      e.key.toLowerCase() === "c")
+  ) {
+    e.preventDefault();
+  }
+
+  if (
+    e.ctrlKey &&
+    (e.key.toLowerCase() === "u" || e.key.toLowerCase() === "p")
+  ) {
+    e.preventDefault();
+  }
+
+  if (e.key === "PrintScreen") {
+    e.preventDefault();
+  }
 });
 </script>
-
 </body>
 </html>
